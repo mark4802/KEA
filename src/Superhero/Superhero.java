@@ -11,7 +11,7 @@ public class Superhero {
 
     public Superhero(String name, String realName, String superPower, int yearCreated, String race, double strength) {
         this.name = name;
-        this.realName = name;
+        this.realName = realName;
         this.superPower = superPower;
         this.yearCreated = yearCreated;
         this.race = race;

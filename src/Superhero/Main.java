@@ -23,7 +23,6 @@ public class Main {
         int brugerValg = _keyboard.nextInt();
         _keyboard.nextLine();
         håndterBrugerValg(brugerValg);
-        System.out.println(brugerValg);
     }
 
     public static void håndterBrugerValg(int brugerValg) {
@@ -34,8 +33,9 @@ public class Main {
             case 2:
                 VisSuperhelte();
                 break;
-            default:
-                System.out.println(brugerValg);
+            case 3:
+                Search();
+                break;
         }
     }
 
@@ -43,8 +43,20 @@ public class Main {
         ArrayList<Superhero> superhelte = db.getSuperhelte();
         for (int i = 0; i < superhelte.size(); i++) {
             Superhero superhero = superhelte.get(i);
-            System.out.println(superhero.getName());
+            PrintSuperhero(superhero);
         }
+        VisMenu();
+    }
+
+    private static void PrintSuperhero(Superhero superhero) {
+        System.out.println(
+                "Navn: " + superhero.getName() +
+                        "     Rigtigt navn: " + superhero.getrealName() +
+                        "     Superkraft: " + superhero.getsuperPower() +
+                        "     År skabt: " + superhero.getyearCreated() +
+                        "     Race: " + superhero.getRace() +
+                        "     Styrke: " + superhero.getstrength()
+        );
     }
 
 
@@ -70,6 +82,34 @@ public class Main {
 
         db.tilføjSuperhelt(name, realName, superPower, yearCreated, race, strength);
         VisMenu();
+    }
+
+    private static void Search() {
+        System.out.print("Indtast søgeord: ");
+        String searchCriteria = _keyboard.next();
+        ArrayList<Superhero> matchingSuperheroes = GetMatchingSuperheroes(searchCriteria.toLowerCase());
+
+        for (int i = 0; i < matchingSuperheroes.size(); i++) {
+            Superhero superhero = matchingSuperheroes.get(i);
+            PrintSuperhero(superhero);
+        }
+        VisMenu();
+    }
+
+    private static ArrayList<Superhero> GetMatchingSuperheroes(String searchCriteria) {
+        ArrayList<Superhero> superheroes = db.getSuperhelte();
+        ArrayList<Superhero> matchingSuperheroes = new ArrayList<Superhero>();
+
+
+        for (int i = 0; i < superheroes.size(); i++) {
+            Superhero superhero = superheroes.get(i);
+            if (superhero.getName().toLowerCase().indexOf(searchCriteria) > -1) {
+                matchingSuperheroes.add(superhero);
+            }
+        }
+
+        return matchingSuperheroes;
+
     }
 
 }
