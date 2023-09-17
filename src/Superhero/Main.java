@@ -7,7 +7,6 @@ public class Main {
     static Database db = new Database();
     static Scanner _keyboard = new Scanner(System.in);
 
-
     public static void main(String[] args) {
         VisMenu();
     }
@@ -27,15 +26,17 @@ public class Main {
 
     public static void håndterBrugerValg(int brugerValg) {
         switch (brugerValg) {
-            case 1:
-                TilføjSuperhelt();
-                break;
-            case 2:
-                VisSuperhelte();
-                break;
-            case 3:
-                Search();
-                break;
+            case 1 -> TilføjSuperhelt();
+            case 2 -> VisSuperhelte();
+            case 3 -> Search();
+            case 9 -> {
+                System.out.println("Programmet er afsluttet.");
+                System.exit(0);
+            }
+            default -> {
+                System.out.println("\"" + brugerValg + "\"" + " er ikke en valgmulighed. Prøv igen");
+                VisMenu();
+            }
         }
     }
 
@@ -72,7 +73,6 @@ public class Main {
 
         System.out.println("Hvilket år er superhelten skabt?");
         int yearCreated = _keyboard.nextInt();
-        _keyboard.nextLine();
 
         System.out.println("Hvad er superheltens race?");
         String race = _keyboard.next();
@@ -88,6 +88,9 @@ public class Main {
         System.out.print("Indtast søgeord: ");
         String searchCriteria = _keyboard.next();
         ArrayList<Superhero> matchingSuperheroes = GetMatchingSuperheroes(searchCriteria.toLowerCase());
+
+        if (matchingSuperheroes.size() <= 0)
+            System.out.println("Ingen superhelt ved navn " + "\"" + searchCriteria + "\"" + " fundet.");
 
         for (int i = 0; i < matchingSuperheroes.size(); i++) {
             Superhero superhero = matchingSuperheroes.get(i);

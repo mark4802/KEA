@@ -1,7 +1,6 @@
 package Superhero;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Database {
 
