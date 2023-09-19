@@ -7,7 +7,6 @@ public class Main {
     static Database db = new Database();
     static Scanner _keyboard = new Scanner(System.in);
 
-
     public static void main(String[] args) {
         VisMenu();
     }
@@ -17,6 +16,7 @@ public class Main {
                 1. Opret superhelt
                 2. Vis superhelte
                 3. Find superhelte
+                4. Slet superhelt
                 9. Afslut
                 """);
 
@@ -27,16 +27,29 @@ public class Main {
 
     public static void håndterBrugerValg(int brugerValg) {
         switch (brugerValg) {
-            case 1:
-                TilføjSuperhelt();
-                break;
-            case 2:
-                VisSuperhelte();
-                break;
-            case 3:
-                Search();
-                break;
+            case 1 -> TilføjSuperhelt();
+            case 2 -> VisSuperhelte();
+            case 3 -> Search();
+            case 4 -> SletSuperhelt();
+            case 9 -> {
+                System.out.println("Programmet er afsluttet.");
+                System.exit(0);
+            }
+            default -> {
+                System.out.println("\"" + brugerValg + "\"" + " er ikke en valgmulighed. Prøv igen");
+                VisMenu();
+            }
         }
+    }
+
+    private static void SletSuperhelt() {
+        System.out.print("Indtast navnet på den superhelt du vil slette: ");
+        String name = _keyboard.next();
+
+        db.deleteSuperhero(name);
+
+        System.out.println("Superhelten er blevet slettet.");
+        VisMenu();
     }
 
     private static void VisSuperhelte() {
@@ -72,7 +85,6 @@ public class Main {
 
         System.out.println("Hvilket år er superhelten skabt?");
         int yearCreated = _keyboard.nextInt();
-        _keyboard.nextLine();
 
         System.out.println("Hvad er superheltens race?");
         String race = _keyboard.next();
@@ -89,6 +101,9 @@ public class Main {
         String searchCriteria = _keyboard.next();
         ArrayList<Superhero> matchingSuperheroes = GetMatchingSuperheroes(searchCriteria.toLowerCase());
 
+        if (matchingSuperheroes.size() <= 0)
+            System.out.println("Ingen superhelt ved navn " + "\"" + searchCriteria + "\"" + " fundet.");
+
         for (int i = 0; i < matchingSuperheroes.size(); i++) {
             Superhero superhero = matchingSuperheroes.get(i);
             PrintSuperhero(superhero);
@@ -103,7 +118,7 @@ public class Main {
 
         for (int i = 0; i < superheroes.size(); i++) {
             Superhero superhero = superheroes.get(i);
-            if (superhero.getName().toLowerCase().indexOf(searchCriteria) > -1) {
+            if (superhero.getName().toLowerCase().contains(searchCriteria)) {
                 matchingSuperheroes.add(superhero);
             }
         }
