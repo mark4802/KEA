@@ -16,6 +16,7 @@ public class Main {
                 1. Opret superhelt
                 2. Vis superhelte
                 3. Find superhelte
+                4. Slet superhelt
                 9. Afslut
                 """);
 
@@ -29,6 +30,7 @@ public class Main {
             case 1 -> TilføjSuperhelt();
             case 2 -> VisSuperhelte();
             case 3 -> Search();
+            case 4 -> SletSuperhelt();
             case 9 -> {
                 System.out.println("Programmet er afsluttet.");
                 System.exit(0);
@@ -38,6 +40,16 @@ public class Main {
                 VisMenu();
             }
         }
+    }
+
+    private static void SletSuperhelt() {
+        System.out.print("Indtast navnet på den superhelt du vil slette: ");
+        String name = _keyboard.next();
+
+        db.deleteSuperhero(name);
+
+        System.out.println("Superhelten er blevet slettet.");
+        VisMenu();
     }
 
     private static void VisSuperhelte() {
@@ -106,7 +118,7 @@ public class Main {
 
         for (int i = 0; i < superheroes.size(); i++) {
             Superhero superhero = superheroes.get(i);
-            if (superhero.getName().toLowerCase().indexOf(searchCriteria) > -1) {
+            if (superhero.getName().toLowerCase().contains(searchCriteria)) {
                 matchingSuperheroes.add(superhero);
             }
         }
